@@ -5,6 +5,7 @@ import { OrderSide } from 'gvm-cex/dist/types';
 
 import pkg from '../package.json';
 
+import type { ExchangesQuotes } from './app.types';
 import { AppBlock, TradeComponentType, NewsTradeType } from './app.types';
 import type { NewsSources } from './hooks/use-news/use-news.types';
 import { PriceType } from './hooks/use-ticker-price.hooks';
@@ -50,6 +51,7 @@ export const defaultSettings = Object.freeze({
     preview: false,
     utc: true,
     hiddenBlocks: [] as AppBlock[],
+    exchangesQuote: {} as ExchangesQuotes,
   },
 
   // General trading preferences

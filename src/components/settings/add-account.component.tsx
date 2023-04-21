@@ -7,16 +7,16 @@ import Toggle from 'react-toggle';
 import { createExchange } from 'gvm-cex';
 
 import {
-  accountsAtom,
-  addAccountAtom,
   Exchange,
   exchanges,
   exchangesLabel,
   exchangesLogo,
   exchangesRef,
-} from '../../hooks/use-accounts.hooks';
+} from '../../app.types';
+import { accountsAtom, addAccountAtom } from '../../hooks/use-accounts.hooks';
 import { EventName, useAnalytics } from '../../hooks/use-analytics.hooks';
 import { logsAtom, LogSeverity } from '../../hooks/use-logs.hooks';
+import { getCORSAnywhere } from '../../utils/cors-anywhere.utils';
 import { ButtonComponent } from '../ui/button.component';
 
 interface FormValues {
@@ -25,6 +25,7 @@ interface FormValues {
   secret: string;
   testnet: boolean;
   applicationId?: string;
+  passphrase?: string;
 }
 
 export const AddAccountComponent = ({ onBack }: { onBack: () => void }) => {
@@ -52,6 +53,8 @@ export const AddAccountComponent = ({ onBack }: { onBack: () => void }) => {
       secret: data.secret,
       testnet: data.testnet,
       applicationId: data.applicationId,
+      passphrase: data.passphrase,
+      corsAnywhere: getCORSAnywhere(selectedExchange, data.testnet),
     });
 
     exchange.once('error', (error: any) => {
@@ -84,6 +87,7 @@ export const AddAccountComponent = ({ onBack }: { onBack: () => void }) => {
       secret: data.secret,
       testnet: data.testnet,
       applicationId: data.applicationId,
+      passphrase: data.passphrase,
       selected: true,
     });
 
@@ -100,18 +104,12 @@ export const AddAccountComponent = ({ onBack }: { onBack: () => void }) => {
               'w-1/3 text-center border-b-2 transition-color uppercase py-2 font-mono cursor-pointer hover:bg-dark-bg-2',
               {
                 'border-b-sky-300': exchange === selectedExchange,
-                'border-b-transparent': exchange !== selectedExchange,
+                'border-b-sky-300/20': exchange !== selectedExchange,
               }
             )}
             onClick={() => setExchange(exchange)}
           >
-            {exchange === Exchange.Woo ? (
-              <span className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-[#40ff80] to-[#39e6d7]">
-                WOO X
-              </span>
-            ) : (
-              exchangesLabel[exchange]
-            )}
+            {exchangesLabel[exchange]}
           </div>
         ))}
       </div>
@@ -162,14 +160,11 @@ export const AddAccountComponent = ({ onBack }: { onBack: () => void }) => {
               })}
               {...register('applicationId', {
                 required: 'applicationId is missing',
-                validate: (v) =>
-                  accounts.find((a) => a.applicationId === v)
-                    ? 'applicationId key already exists'
-                    : true,
               })}
             />
           </div>
         )}
+
         <div className="w-full text-sm mb-2">
           <input
             type="text"
@@ -192,6 +187,18 @@ export const AddAccountComponent = ({ onBack }: { onBack: () => void }) => {
             {...register('secret', { required: 'Secret is missing' })}
           />
         </div>
+        {selectedExchange === Exchange.OKX && (
+          <div className="w-full text-sm -mt-2 mb-4">
+            <input
+              type="password"
+              placeholder="Passphrase (Exchange)"
+              className={cx('w-full', {
+                'border-red-500': errors.passphrase,
+              })}
+              {...register('passphrase', { required: 'passphrase is missing' })}
+            />
+          </div>
+        )}
         <div className="w-full text-sm flex justify-center items-center">
           <div className="mx-2 uppercase font-bold text-dark-border-gray-2 mb-[2px]">
             Testnet

@@ -3,10 +3,8 @@ import { useAtomValue } from 'jotai';
 import React from 'react';
 
 import { latencyAtom } from '../../app-state';
-import {
-  selectedAccountAtom,
-  exchangesLogo,
-} from '../../hooks/use-accounts.hooks';
+import { exchangesLogo } from '../../app.types';
+import { selectedAccountAtom } from '../../hooks/use-accounts.hooks';
 
 export const NavbarLatencyComponent = () => {
   const account = useAtomValue(selectedAccountAtom);

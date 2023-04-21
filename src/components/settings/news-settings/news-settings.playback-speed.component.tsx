@@ -14,9 +14,9 @@ export const NewsSettingsPlaybackSpeedComponent = () => {
       <div className="mr-8 font-bold">Playback speed</div>
       <div className="flex-1">
         <Range
-          step={0.1}
+          step={0.05}
           min={1}
-          max={3}
+          max={1.5}
           values={[text2SpeechPlaybackSpeed]}
           renderTrack={({ props, children }) => (
             <div

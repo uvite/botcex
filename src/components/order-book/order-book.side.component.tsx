@@ -27,7 +27,7 @@ export const OrderBookSideComponent = ({
 
   return (
     <div className="w-full relative">
-      <div className="w-full absolute top-[32px]">
+      <div className="w-full absolute top-[32px] z-0">
         {orders.map((order, i) => (
           <div
             key={order.price}
@@ -42,7 +42,7 @@ export const OrderBookSideComponent = ({
           />
         ))}
       </div>
-      <table className="table table-fixed font-mono text-xs w-full">
+      <table className="table table-fixed font-mono text-xs w-full relative z-10">
         <thead>
           {side === 'bids' ? (
             <tr className="text-dark-text-gray uppercase h-[32px]">
@@ -60,16 +60,15 @@ export const OrderBookSideComponent = ({
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.price} className="h-[18px]">
+            <tr
+              key={order.price}
+              className="h-[18px] hover:bg-white/5 cursor-pointer select-none transition-colors ease-out hover:font-bold"
+              onClick={() => copyPrice(order.price)}
+            >
               {side === 'bids' ? (
                 <>
                   <td className="text-dark-green pl-1">
-                    <span
-                      className="cursor-pointer"
-                      onClick={() => copyPrice(order.price)}
-                    >
-                      {order.price.toFixed(precision)}
-                    </span>
+                    {order.price.toFixed(precision)}
                   </td>
                   <td className="text-dark-green">
                     {abbreviateNumber(order.amount)}

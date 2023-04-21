@@ -42,7 +42,7 @@ export const scaleInSizeAtom = atom((get) => {
   const reduceOnly = get(scaleSizeReduceOnlyAtom);
 
   const priceRange = generatePriceRange({ from, to, nbOrders });
-  const priceRangeEased = easeRange(priceRange, easeRatio);
+  const priceRangeEased = easeRange(priceRange, easeRatio, side);
 
   const avgPrice = mean(priceRangeEased);
   const sizeInUSD = size * avgPrice;

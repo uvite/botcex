@@ -10,9 +10,11 @@ import { loadedAtom } from '../../app-state';
 import { selectedSymbolAtom } from '../../atoms/trade.atoms';
 import {
   displayedTickersAtom,
-  filterAtom,
+  tickersFilterAtom,
   orderByTickersAtom,
   orderTickersFnAtom,
+  currentExchangeQuoteAtom,
+  exchangeQuotesOptionsAtom,
 } from '../../hooks/use-tickers.hooks';
 import { GridBlockComponent } from '../ui/grid-block.component';
 import { LoadingComponent } from '../ui/loading.component';
@@ -55,11 +57,14 @@ export const TickersComponent = () => {
   const displayedTickers = useAtomValue(displayedTickersAtom);
   const { tickers: loaded } = useAtomValue(loadedAtom);
 
-  const [filter, setFilter] = useAtom(filterAtom);
+  const [filter, setFilter] = useAtom(tickersFilterAtom);
+  const [tickersQuote, setTickersQuote] = useAtom(currentExchangeQuoteAtom);
   const [selectedSymbol, setSelectedSymbol] = useAtom(selectedSymbolAtom);
 
   const [orderByAttr, orderByDirection] = useAtomValue(orderByTickersAtom);
   const orderTickers = useSetAtom(orderTickersFnAtom);
+
+  const exchangeQuotesOptions = useAtomValue(exchangeQuotesOptionsAtom);
 
   const handleKeyDown = ({
     key,
@@ -82,6 +87,25 @@ export const TickersComponent = () => {
       title={<div className="font-bold">Tickers</div>}
     >
       <div className="px-2 py-3 h-full overflow-hidden select-none">
+        {exchangeQuotesOptions.length > 1 && (
+          <div className="w-full flex items-center justify-center mb-2">
+            {exchangeQuotesOptions.map((quote) => (
+              <div
+                key={quote}
+                className={cx(
+                  'flex items-center justify-center font-mono text-xs font-bold uppercase border-2 rounded-md transition-opacity bg-slate-500/50 border-slate-500 w-full mx-1 cursor-pointer',
+                  {
+                    'opacity-100': quote === tickersQuote,
+                    'opacity-30': quote !== tickersQuote,
+                  }
+                )}
+                onClick={() => setTickersQuote(quote)}
+              >
+                {quote}
+              </div>
+            ))}
+          </div>
+        )}
         <div className="mb-2 relative">
           <input
             id="tickers-search"
@@ -101,59 +125,67 @@ export const TickersComponent = () => {
             <TiDelete className="text-lg" onClick={() => setFilter('')} />
           </span>
         </div>
-        <div className="px-1 h-[calc(100%-30px)] overflow-hidden">
+        <div
+          className={cx('px-1 relative overflow-hidden', {
+            'h-[calc(100%-36px)]': exchangeQuotesOptions.length <= 1,
+            'h-[calc(100%-36px-25px)]': exchangeQuotesOptions.length > 1,
+          })}
+        >
           {!loaded ? (
             <LoadingComponent />
           ) : (
-            <TableVirtuoso
-              data={displayedTickers}
-              className="no-scrollbar"
-              totalCount={displayedTickers.length}
-              context={{ selectedSymbol, setSelectedSymbol }}
-              increaseViewportBy={{ top: 250, bottom: 250 }}
-              components={{
-                Table: TableComponent,
-                TableRow: TableRowComponent,
-              }}
-              fixedHeaderContent={() => (
-                <tr className="font-mono text-xs text-dark-text-gray bg-dark-bg-2">
-                  <th />
-                  {columns.map((column, idx) => (
-                    <th
-                      key={column.label}
-                      className={cx(
-                        idx === 0 ? 'text-left' : 'text-right',
-                        'pb-4 pt-2',
-                        {
-                          'text-dark-text-white/70': orderByAttr === column.key,
-                          'underline underline-offset-4 cursor-pointer decoration-dotted hover:text-dark-text-white':
-                            Boolean(column.key),
-                        }
-                      )}
-                      onClick={() =>
-                        column.key ? orderTickers(column.key) : undefined
-                      }
-                    >
-                      <span className="inline-flex items-center">
-                        <span>{column.label}</span>
-                        {column.key === orderByAttr && (
-                          <span className="ml-3">
-                            {orderByDirection === 'asc' ? (
-                              <RiSortAsc />
-                            ) : (
-                              <RiSortDesc />
-                            )}
-                          </span>
+            <>
+              <TableVirtuoso
+                data={displayedTickers}
+                className="no-scrollbar"
+                totalCount={displayedTickers.length}
+                context={{ selectedSymbol, setSelectedSymbol }}
+                increaseViewportBy={{ top: 250, bottom: 250 }}
+                components={{
+                  Table: TableComponent,
+                  TableRow: TableRowComponent,
+                }}
+                fixedHeaderContent={() => (
+                  <tr className="font-mono text-xs text-dark-text-gray bg-dark-bg-2">
+                    <th />
+                    {columns.map((column, idx) => (
+                      <th
+                        key={column.label}
+                        className={cx(
+                          idx === 0 ? 'text-left' : 'text-right',
+                          'pb-4 pt-2',
+                          {
+                            'text-dark-text-white/70':
+                              orderByAttr === column.key,
+                            'underline underline-offset-4 cursor-pointer decoration-dotted hover:text-dark-text-white':
+                              Boolean(column.key),
+                          }
                         )}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
-              )}
-              itemContent={(_index, ticker) => (
-                <TickerComponent ticker={ticker} />
-              )}
-            />
+                        onClick={() =>
+                          column.key ? orderTickers(column.key) : undefined
+                        }
+                      >
+                        <span className="inline-flex items-center">
+                          <span>{column.label}</span>
+                          {column.key === orderByAttr && (
+                            <span className="ml-3">
+                              {orderByDirection === 'asc' ? (
+                                <RiSortAsc />
+                              ) : (
+                                <RiSortDesc />
+                              )}
+                            </span>
+                          )}
+                        </span>
+                      </th>
+                    ))}
+                  </tr>
+                )}
+                itemContent={(_index, ticker) => (
+                  <TickerComponent ticker={ticker} />
+                )}
+              />
+            </>
           )}
         </div>
       </div>

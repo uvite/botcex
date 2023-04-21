@@ -104,8 +104,8 @@ export const GridComponent = ({ layouts }: { layouts: Layouts }) => {
       layouts={withoutHidden}
       breakpoints={{ xs: 0, lg: 1750 }}
       cols={{ xs: 20, lg: 20 }}
-      rowHeight={50}
-      margin={{ xs: [8, 8], lg: [8, 8] }}
+      rowHeight={52}
+      margin={{ xs: [6, 6], lg: [6, 6] }}
       onLayoutChange={(_, update) => updateLayouts(update)}
     >
       {Object.entries(blocks)

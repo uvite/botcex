@@ -12,6 +12,7 @@ import { appStateAtom } from '../app-state';
 import { isMutedAtom } from '../atoms/app.atoms';
 import { errorToast } from '../notifications/error.toast';
 import { filledOrderToast } from '../notifications/filled-order.toast';
+import { getCORSAnywhere } from '../utils/cors-anywhere.utils';
 
 import { selectedAccountAtom } from './use-accounts.hooks';
 import { LogSeverity, logsAtom } from './use-logs.hooks';
@@ -55,7 +56,8 @@ export const useExchangeConnector = () => {
         secret: account.secret,
         testnet: account.testnet,
         applicationId: account.applicationId,
-        corsAnywhere: 'https://cors.tuleep.trade',
+        passphrase: account.passphrase,
+        corsAnywhere: getCORSAnywhere(account.exchange, account.testnet),
       });
 
       _connector.on('update', (data: StoreData) => {

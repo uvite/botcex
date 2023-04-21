@@ -46,7 +46,7 @@ export const scaledInRiskTradeAtom = atom((get) => {
   const to = from > stop ? stop + lot : stop - lot;
 
   const priceRange = generatePriceRange({ from, to, nbOrders });
-  const priceRangeEased = easeRange(priceRange, easeRatio);
+  const priceRangeEased = easeRange(priceRange, easeRatio, side);
 
   const scaleAvgPrice = mean(priceRangeEased);
   const avgPrice = 1 / ((1 - scaleRatio) / from + scaleRatio / scaleAvgPrice);

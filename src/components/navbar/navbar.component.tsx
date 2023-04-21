@@ -34,12 +34,7 @@ export const NavbarComponent = () => {
 
   return (
     <>
-      {/*{process.env.STAGE !== 'prod' && (*/}
-      {/*  <div className="bg-purple-500 text-white text-center py-0.5">*/}
-      {/*    <span className="font-bold">WARNING:</span> This is a preview version*/}
-      {/*    of the app.*/}
-      {/*  </div>*/}
-      {/*)}*/}
+
       {process.env.STAGE !== 'dev' && hasNewVersion && (
         <div
           className="bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 text-white text-center py-2 cursor-pointer border-b-2"

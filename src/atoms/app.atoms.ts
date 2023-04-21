@@ -89,3 +89,7 @@ export const selectedSymbolNewsAtom = atom((get) => {
 
   return news.filter((n) => n.symbols.includes(symbol));
 });
+
+export const exchangesQuotesAtom = focusAtom(appSettingsAtom, (o) =>
+  o.prop('global').prop('exchangesQuote')
+);

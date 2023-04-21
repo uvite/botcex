@@ -2,8 +2,12 @@ import { atom, useAtomValue } from 'jotai';
 import { orderBy } from 'lodash';
 import type { Ticker } from 'gvm-cex/dist/types';
 
-import { tickersAtom } from '../app-state';
+import { marketsAtom, tickersAtom } from '../app-state';
+import type { Quote } from '../app.types';
+import { quotes } from '../app.types';
+import { exchangesQuotesAtom } from '../atoms/app.atoms';
 
+import { selectedAccountAtom } from './use-accounts.hooks';
 import { favoriteSymbolsAtom } from './use-favorites.hooks';
 
 type OrderByTickers = keyof Ticker;
@@ -54,17 +58,45 @@ export const useTickerInfos = (ticker: string) => {
   return useGetTickerInfos()(ticker);
 };
 
-export const filterAtom = atom('');
+export const tickersFilterAtom = atom('');
+export const currentExchangeQuoteAtom = atom(
+  (get) => {
+    const account = get(selectedAccountAtom);
+    if (!account) return null;
+
+    const exchangesQuote = get(exchangesQuotesAtom);
+    return account.exchange in exchangesQuote
+      ? exchangesQuote[account.exchange]
+      : null;
+  },
+  (get, set, quote: Quote) => {
+    const account = get(selectedAccountAtom);
+
+    if (account) {
+      const exchangesQuote = get(exchangesQuotesAtom);
+      const curr = exchangesQuote[account.exchange];
+
+      set(exchangesQuotesAtom, {
+        ...exchangesQuote,
+        [account.exchange]: quote === curr ? null : quote,
+      });
+    }
+  }
+);
+
 export const displayedTickersAtom = atom((get) => {
   const tickers = get(orderedTickersAtom);
-  const filter = get(filterAtom);
+  const filter = get(tickersFilterAtom);
+  const quote = get(currentExchangeQuoteAtom);
   const favorites = get(favoriteSymbolsAtom);
 
-  const filtered = tickers.filter((ticker) =>
-    ticker.symbol
-      .replace(/\/.+/, '')
-      .toLowerCase()
-      .includes(filter.toLowerCase())
+  const filtered = tickers.filter(
+    (ticker) =>
+      ticker.symbol.endsWith(quote || '') &&
+      ticker.symbol
+        .replace(/\/.+/, '')
+        .toLowerCase()
+        .includes(filter.toLowerCase())
   );
 
   const ordered = orderBy(
@@ -74,4 +106,9 @@ export const displayedTickersAtom = atom((get) => {
   );
 
   return ordered;
+});
+
+export const exchangeQuotesOptionsAtom = atom((get) => {
+  const markets = get(marketsAtom);
+  return quotes.filter((q) => markets.some((m) => m.quote === q));
 });

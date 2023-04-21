@@ -4,7 +4,7 @@ import { IoLogoGameControllerA, IoMdRocket } from 'react-icons/io';
 import { MdMoneyOff, MdOutlinePrivacyTip } from 'react-icons/md';
 import { useScramble } from 'use-scramble';
 
-import { exchangesRef } from '../../hooks/use-accounts.hooks';
+import { exchangesRef } from '../../app.types';
 
 const tagLines = [
   'Revolutionize your trading strategy with our tools',
@@ -140,11 +140,19 @@ export const HomeHeroComponent = () => {
           </a>
           <a
             href={exchangesRef.woo.link}
-            className="relative opacity-70 top-[3px] transition-opacity hover:opacity-100"
+            className="relative opacity-70 top-[3px] mr-5 transition-opacity hover:opacity-100"
             target="_blank"
             rel="noreferrer"
           >
             <Image alt="woox" src="/woo.svg" width={396 / 3} height={84 / 3} />
+          </a>
+          <a
+            href={exchangesRef.okx.link}
+            className="relative opacity-70 top-[3px] transition-opacity hover:opacity-100"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <Image alt="okx" src="/okx.png" width={854 / 8} height={256 / 8} />
           </a>
         </div>
       </div>

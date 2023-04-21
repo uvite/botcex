@@ -1,42 +1,7 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
-export enum Exchange {
-  Bybit = 'bybit',
-  Binance = 'binance',
-  Woo = 'woo',
-}
-
-export const exchangesLogo = {
-  [Exchange.Bybit]: '/bybit.png',
-  [Exchange.Binance]: '/binance.png',
-  [Exchange.Woo]: '/woo.svg',
-};
-
-export const exchangesRef = {
-  [Exchange.Bybit]: {
-    link: 'https://partner.bybit.com/b/tuleep',
-    label: '$30,000 deposit bonus',
-    help: 'https://docs.tuleep.trade/getting-started/create-exchange-api-key/bybit',
-  },
-  [Exchange.Woo]: {
-    link: 'https://x.woo.org/register?ref=TULEEP',
-    label: '0 fees for 14 days',
-    help: 'https://docs.tuleep.trade/getting-started/create-exchange-api-key/woo-x',
-  },
-  [Exchange.Binance]: {
-    link: 'https://accounts.binance.com/en/register?ref=KOLLSXK0',
-    label: '$100 deposit bonus',
-    help: 'https://docs.tuleep.trade/getting-started/create-exchange-api-key/binance',
-  },
-};
-
-export const exchanges = [Exchange.Bybit, Exchange.Woo, Exchange.Binance];
-export const exchangesLabel = {
-  [Exchange.Bybit]: 'Bybit',
-  [Exchange.Binance]: 'Binance',
-  [Exchange.Woo]: 'WOO X',
-};
+import type { Exchange } from '../app.types';
 
 export interface Account {
   exchange: Exchange;
@@ -46,6 +11,7 @@ export interface Account {
   testnet: boolean;
   selected: boolean;
   applicationId?: string;
+  passphrase?: string;
 }
 
 export const accountsAtom = atomWithStorage<Account[]>('accounts', []);

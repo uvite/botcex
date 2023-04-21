@@ -5,25 +5,25 @@ export function startBugSnag() {
   // So use NEXT_PHASE to avoid Bugsnag.start being executed during the build phase
   // See https://nextjs.org/docs/api-reference/next.config.js/introduction and https://github.com/vercel/next.js/blob/canary/packages/next/shared/lib/constants.ts#L1-L5 for
   // more details on NEXT_PHASE
-  if (process.env.NEXT_PHASE !== 'phase-production-build') {
-    // if (typeof window === 'undefined') {
-    //   Bugsnag.start({
-    //     apiKey: process.env.BUGSNAG_API_KEY as string,
-    //     appVersion: process.env.NEXT_BUILD_ID,
-    //     releaseStage: process.env.STAGE,
-    //     // @bugsnag/plugin-aws-lambda must only be imported on the server
-    //     plugins: [require('@bugsnag/plugin-aws-lambda')],
-    //   });
-    // } else {
-    //   // If preferred two separate Bugsnag projects e.g. a javascript and a node project could be used rather than a single one
-    //   Bugsnag.start({
-    //     apiKey: process.env.BUGSNAG_API_KEY as string,
-    //     appVersion: process.env.NEXT_BUILD_ID,
-    //     releaseStage: process.env.STAGE,
-    //     plugins: [],
-    //   });
-    // }
-  }
+  // if (process.env.NEXT_PHASE !== 'phase-production-build') {
+  //   if (typeof window === 'undefined') {
+  //     Bugsnag.start({
+  //       apiKey: process.env.BUGSNAG_API_KEY as string,
+  //       appVersion: process.env.NEXT_BUILD_ID,
+  //       releaseStage: process.env.STAGE,
+  //       // @bugsnag/plugin-aws-lambda must only be imported on the server
+  //       plugins: [require('@bugsnag/plugin-aws-lambda')],
+  //     });
+  //   } else {
+  //     // If preferred two separate Bugsnag projects e.g. a javascript and a node project could be used rather than a single one
+  //     Bugsnag.start({
+  //       apiKey: process.env.BUGSNAG_API_KEY as string,
+  //       appVersion: process.env.NEXT_BUILD_ID,
+  //       releaseStage: process.env.STAGE,
+  //       plugins: [],
+  //     });
+  //   }
+  // }
 }
 
 export function getServerlessHandler() {

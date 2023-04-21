@@ -2,9 +2,9 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import React, { useState } from 'react';
 import { FiDelete } from 'react-icons/fi';
 
+import { exchangesLogo } from '../../app.types';
 import {
   accountsAtom,
-  exchangesLogo,
   removeAccountAtom,
 } from '../../hooks/use-accounts.hooks';
 import { EventName, useAnalytics } from '../../hooks/use-analytics.hooks';

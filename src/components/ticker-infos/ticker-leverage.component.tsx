@@ -3,7 +3,8 @@ import React, { useContext, useState } from 'react';
 import { Range } from 'react-range';
 
 import { marketsAtom, positionsAtom } from '../../app-state';
-import { Exchange, selectedAccountAtom } from '../../hooks/use-accounts.hooks';
+import { Exchange } from '../../app.types';
+import { selectedAccountAtom } from '../../hooks/use-accounts.hooks';
 import { EventName, useAnalytics } from '../../hooks/use-analytics.hooks';
 import { ConnectorContext } from '../../hooks/use-exchange-connector.hooks';
 import { ButtonComponent } from '../ui/button.component';

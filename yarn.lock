@@ -6554,10 +6554,10 @@ graphql@^16.6.0:
   resolved "https://registry.npmmirror.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
   integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
 
-gvm-cex@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/gvm-cex/-/gvm-cex-1.0.1.tgz#fb38c92db51177cddecec7695e3d49b7a86ec708"
-  integrity sha512-0wFttX6AnLrAq74Im7opgDSuYHnnVQN+GLoyNZ11eP7rK1/kqL6rCRxfv5mNHqXkXearsEOT9rYKK2T2C6lu8g==
+gvm-cex@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/gvm-cex/-/gvm-cex-2.0.0.tgz#2a7a6c6b8fd52b3de4c7be600ce11e93c28d7683"
+  integrity sha512-wwwfP5/DOwNJt+AZEK0TA6h4IIiz50RXaW8aoknO6Sr1c9Bx3P1corA902olIy4UUuah27tttq6OILpDOzvpdw==
   dependencies:
     axios "^1.3.3"
     axios-rate-limit "^1.3.0"

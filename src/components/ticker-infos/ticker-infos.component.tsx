@@ -9,7 +9,8 @@ import {
   selectedPositionsAtom,
   selectedTickerAtom,
 } from '../../app-state';
-import { Exchange, selectedAccountAtom } from '../../hooks/use-accounts.hooks';
+import { Exchange } from '../../app.types';
+import { selectedAccountAtom } from '../../hooks/use-accounts.hooks';
 import { useFavorites } from '../../hooks/use-favorites.hooks';
 import { abbreviateNumber } from '../../utils/formatter.utils';
 import { pFloat } from '../../utils/parse-float.utils';
@@ -39,8 +40,9 @@ export const TickerInfosComponent = () => {
   }
 
   const displayOi = market && ticker && account?.exchange !== Exchange.Binance;
-  const displayLeverage =
-    market && position && ticker && account?.exchange !== Exchange.Woo;
+  const displayLeverage = Boolean(
+    market && ticker && position?.leverage && account?.exchange !== Exchange.Woo
+  );
 
   return (
     <GridBlockComponent title={<div className="font-bold">Ticker infos</div>}>
